@@ -5,14 +5,15 @@
   tasks:
 
 #perus
-  - name: Konffataan secondari palvelut kuten DNS
+  - name: Konffataan secondari palvelut kuten gateway
+    shell: nmcli con mod "System eth0" ipv4.gateway 192.168.100.16;nmcli con up "System eth0"
+
+  - name: Ja DNS
     nmcli:
       conn_name: "System eth0"
       type: ethernet
       dns4:
       - 9.9.9.9
-      gw4:
-      - 192.168.100.1
       state: present
 
 
