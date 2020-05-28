@@ -58,9 +58,7 @@
       enabled: yes
 
   - name: Paivitetaan pythonit 
-    yum:
-      name: 'python*'
-      state: latest
+    shell: yum upgrade python*
 
 #zabbixi
 
