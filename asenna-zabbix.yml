@@ -45,18 +45,18 @@
     yum:
       name: git
       state: latest
-yum install -y git
 
-- name: Tyokansio
-  file:
-    path: /opt/git/
-    state: directory
-    owner: root
-    group: root
-    mode: '0644'
+  - name: Tyokansio
+    file:
+      path: /opt/git/
+      state: directory
+      owner: root
+      group: root
+      mode: '0644'
 
-- git:
-    repo: https://github.com/zabbix/zabbix-docker.git
-    dest: /opt/git/zabbix-docker/
-    version: 5.0
+  - name: Asennetaan git
+    git:
+      repo: https://github.com/zabbix/zabbix-docker.git
+      dest: /opt/git/zabbix-docker/
+      version: 5.0
   
