@@ -8,15 +8,18 @@
   - name: Konffataan secondari palvelut kuten gateway
     shell: nmcli con mod "System eth0" ipv4.gateway 192.168.100.16;nmcli con up "System eth0"
 
-  - name: Ja DNS
-    nmcli:
-      conn_name: "System eth0"
-      type: ethernet
-      dns4:
-      - 9.9.9.9
-      state: present
+  - name: Konffataan secondari palvelut kuten gatedns
+    shell: nmcli con mod "System eth0" ipv4.dns 9.9.9.9;nmcli con up "System eth0"
 
 
+#nmcli ei toimi koska vaatii paketteja, joita ei voi saada koska verkko ja dns ei toimi, korjataan syssymmalla
+#  - name: Ja DNS
+#    nmcli:
+#      conn_name: "System eth0"
+#      type: ethernet
+#      dns4:
+#      - 9.9.9.9
+#      state: present
 
 
   - name: Paivitetaan kaikki
