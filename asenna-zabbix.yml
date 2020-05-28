@@ -5,6 +5,19 @@
   tasks:
 
 #perus
+  - name: Konffataan secondari palvelut kuten DNS
+    nmcli:
+      conn_name: "System eth0"
+      type: ethernet
+      dns4:
+      - 9.9.9.9
+      gw4:
+      - 192.168.100.1
+      state: present
+
+
+
+
   - name: Paivitetaan kaikki
     yum:
       name: '*'
