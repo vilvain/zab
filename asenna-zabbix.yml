@@ -26,13 +26,13 @@
       name: '*'
       state: latest
 
-- name: Palomuuri docker0
-  firewalld:
-    zone: trusted
-    interface: docker0
-    permanent: yes
-    immediate: yes
-    state: enabled
+  - name: Palomuuri docker0
+    firewalld:
+      zone: trusted
+      interface: docker0
+      permanent: yes
+      immediate: yes
+      state: enabled
 
 
 #docker alusta
