@@ -30,7 +30,7 @@
 
 #docker alusta
   - name: Lisataan docker-ce repo
-    shell: sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+    shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 
   - name: Sitten tykitetaan paketteja
     yum:
@@ -44,10 +44,12 @@
       - docker-ce
       - epel-release
       - python3
-      - docker-compose
+
+  - name: Asennetaan docker-compose
+    shell: pip3 install docker-compose
 
   - name: Oikkarit dockerille
-    shell: sudo usermod -aG docker $(whoami)
+    shell: usermod -aG docker $(whoami)
 
   - name: 
     service:
