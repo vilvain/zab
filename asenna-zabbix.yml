@@ -21,7 +21,6 @@
 #      - 9.9.9.9
 #      state: present
 
-
   - name: Paivitetaan kaikki
     yum:
       name: '*'
@@ -60,7 +59,6 @@
 
   - name: Paivitetaan pythonit 
     shell: yum upgrade python*
-    warn: false
 
 #zabbixi
 
@@ -81,5 +79,5 @@
     git:
       repo: https://github.com/zabbix/zabbix-docker.git
       dest: /opt/git/zabbix-docker/
-      version: '5.0'
+      version: "5.0"
   
