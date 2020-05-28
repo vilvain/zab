@@ -31,6 +31,7 @@
 #docker alusta
   - name: Lisataan docker-ce repo
     shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+    warn: false
 
   - name: Sitten tykitetaan paketteja
     yum:
@@ -59,6 +60,7 @@
 
   - name: Paivitetaan pythonit 
     shell: yum upgrade python*
+    warn: false
 
 #zabbixi
 
@@ -79,5 +81,5 @@
     git:
       repo: https://github.com/zabbix/zabbix-docker.git
       dest: /opt/git/zabbix-docker/
-      version: 5.0
+      version: '5.0'
   
