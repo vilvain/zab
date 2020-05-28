@@ -30,7 +30,6 @@
 #docker alusta
   - name: Lisataan docker-ce repo
     shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-    warn: false
 
   - name: Sitten tykitetaan paketteja
     yum:
