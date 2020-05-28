@@ -1,0 +1,62 @@
+- name: Valtori KT Dockeroitu Zabbix
+  hosts: all
+
+  tasks:
+
+#perus
+  - name: Paivitetaan kaikki
+    yum:
+      name: '*'
+      state: latest
+
+
+#docker alusta
+  - name: Sitten tykitetaan paketteja
+    yum:
+      name: "{{ paketit }}"
+    vars:
+      paketit:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+      - docker-ce
+      - epel-release
+      - python3
+      - docker-compose
+
+  - name: Oikkarit dockerille
+    shell: sudo usermod -aG docker $(whoami)
+
+  - name: 
+    service:
+      name: docker.service
+      state: started
+      enabled: yes
+
+  - name: Paivitetaan pythonit 
+    yum:
+      name: 'python*'
+      state: latest
+
+#zabbixi
+
+  - name: Asennetaan git
+    yum:
+      name: git
+      state: latest
+yum install -y git
+
+- name: Tyokansio
+  file:
+    path: /opt/git/
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'
+
+- git:
+    repo: https://github.com/zabbix/zabbix-docker.git
+    dest: /opt/git/zabbix-docker/
+    version: 5.0
+  
