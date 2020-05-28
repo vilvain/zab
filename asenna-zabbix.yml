@@ -29,6 +29,9 @@
 
 
 #docker alusta
+  - name: Lisataan docker-ce repo
+    shell: sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
   - name: Sitten tykitetaan paketteja
     yum:
       name: "{{ paketit }}"
