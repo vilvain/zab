@@ -92,11 +92,11 @@
 
 
   - name: Kanta
-    docker:
+    docker_container:
       name: postgres-server
       image: postgres:latest
       env: 
-      - POSTGRES_USER="zabbix"
-      - POSTGRES_PASSWORD="zabbix"
-      - POSTGRES_DB="zabbix_pwd"
+        POSTGRES_USER: "zabbix"
+        POSTGRES_PASSWORD: "zabbix"
+        POSTGRES_DB: "zabbix_pwd"
       detach: yes
