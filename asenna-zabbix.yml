@@ -26,6 +26,14 @@
       name: '*'
       state: latest
 
+- name: Palomuuri docker0
+  firewalld:
+    zone: trusted
+    interface: docker0
+    permanent: yes
+    immediate: yes
+    state: enabled
+
 
 #docker alusta
   - name: Lisataan docker-ce repo
@@ -80,3 +88,15 @@
       dest: /opt/git/zabbix-docker/
       version: "5.0"
   
+#docker kontit
+
+
+  - name: Kanta
+    docker:
+      name: postgres-server
+      image: postgres:latest
+      env: 
+      - POSTGRES_USER="zabbix"
+      - POSTGRES_PASSWORD="zabbix"
+      - POSTGRES_DB="zabbix_pwd"
+      detach: yes
