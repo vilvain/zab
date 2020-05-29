@@ -37,6 +37,17 @@
       name: "*"
       state: latest
 
+#ei valttis tarvetta tuotantoon, mutta devaukseen must
+  - name: Asennetaan diagnostiikat
+    yum:
+      name: "{{ paketit }}"
+    vars:
+      paketit:
+      - epel-release
+      - net-tools
+      - tcpdump
+      - htop
+      - iotop
 
 #docker alusta
   - name: Lisataan docker-ce repo
@@ -112,8 +123,8 @@
       image: postgres:latest
       env: 
         POSTGRES_USER: "zabbix"
-        POSTGRES_PASSWORD: "zabbix"
-        POSTGRES_DB: "zabbix_pwd"
+        POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+        POSTGRES_DB: "zabbix"
       detach: yes
 
   - name: SNMP serveri
@@ -134,8 +145,8 @@
       env: 
         DB_SERVER_HOST: "postgres-server"
         POSTGRES_USER: "zabbix"
-        POSTGRES_PASSWORD: "zabbix"
-        POSTGRES_DB: "zabbix_pwd"
+        POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+        POSTGRES_DB: "zabbix"
       links:
       - "postgres-server:postgres"
       ports:
@@ -151,8 +162,8 @@
       env: 
         DB_SERVER_HOST: "postgres-server"
         POSTGRES_USER: "zabbix"
-        POSTGRES_PASSWORD: "zabbix"
-        POSTGRES_DB: "zabbix_pwd"
+        POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+        POSTGRES_DB: "zabbix"
       links:
       - "postgres-server:postgres"
       - "zabbix-server-pgsql:zabbix-server"
