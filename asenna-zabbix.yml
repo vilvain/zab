@@ -21,10 +21,22 @@
 #      - 9.9.9.9
 #      state: present
 
+  - name: Asennetaan aika
+    dnf:
+      name: chrony
+      state: latest
+
+  - name: Asennetaan aika
+    service:
+      name: chronyd
+      state: started
+      enabled: yes
+
   - name: Paivitetaan kaikki
     yum:
       name: '*'
       state: latest
+      enabled: true
 
   - name: Palomuuri docker0
     firewalld:
