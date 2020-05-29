@@ -41,7 +41,8 @@
 #docker alusta
   - name: Lisataan docker-ce repo
     shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-    warn: no
+    args:
+      warn: no
 
   - name: Sitten tykitetaan paketteja
     yum:
@@ -78,7 +79,8 @@
 
   - name: Paivitetaan pythonit 
     shell: yum upgrade python*
-    warn: no
+    args:
+      warn: no
 
 #zabbixi
 
