@@ -90,8 +90,8 @@
       immediate: yes
       state: enabled
 
-  - name: 
-    service: Docker pystyyn
+  - name: Docker pystyyn
+    service:
       name: docker.service
       state: started
       enabled: yes
