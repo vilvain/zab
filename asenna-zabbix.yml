@@ -33,10 +33,9 @@
       enabled: yes
 
   - name: Paivitetaan kaikki
-    yum:
-      name: '*'
+    dnf:
+      name: "*"
       state: latest
-      enabled: true
 
 
 #docker alusta
