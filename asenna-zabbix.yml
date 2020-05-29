@@ -74,12 +74,6 @@
   - name: Oikkarit dockerille
     shell: usermod -aG docker $(whoami)
 
-  - name: 
-    service:
-      name: docker.service
-      state: started
-      enabled: yes
-
   - name: Palomuuri docker0
     firewalld:
       zone: trusted
@@ -87,6 +81,20 @@
       permanent: yes
       immediate: yes
       state: enabled
+
+  - name: Palomuuri reverse proxy
+    firewalld:
+      zone: public
+      service: https
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+  - name: 
+    service: Docker pystyyn
+      name: docker.service
+      state: started
+      enabled: yes
 
   - name: Paivitetaan pythonit 
     shell: yum upgrade python*
