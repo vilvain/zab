@@ -38,14 +38,6 @@
       state: latest
       enabled: true
 
-  - name: Palomuuri docker0
-    firewalld:
-      zone: trusted
-      interface: docker0
-      permanent: yes
-      immediate: yes
-      state: enabled
-
 
 #docker alusta
   - name: Lisataan docker-ce repo
@@ -75,6 +67,14 @@
       name: docker.service
       state: started
       enabled: yes
+
+  - name: Palomuuri docker0
+    firewalld:
+      zone: trusted
+      interface: docker0
+      permanent: yes
+      immediate: yes
+      state: enabled
 
   - name: Paivitetaan pythonit 
     shell: yum upgrade python*
