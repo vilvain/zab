@@ -89,19 +89,33 @@
   - name: Oikkarit dockerille
     shell: usermod -aG docker $(whoami)
 
-  - name: Palomuuri docker0
+  - name: Palomuuri docker0 - trusted
     firewalld:
       zone: trusted
       interface: docker0
+      permanent: yes
+      immediate: yes
+      state: enabled
+  
+  - name: Palomuuri docker0 - masquerade
+    firewalld:
+      zone: trusted
       masquerade: yes
       permanent: yes
       immediate: yes
       state: enabled
 
-  - name: Palomuuri reverse proxy
+  - name: Palomuuri public - https
     firewalld:
       zone: public
       service: https
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+  - name: Palomuuri public - masquerade
+    firewalld:
+      zone: public
       masquerade: yes
       permanent: yes
       immediate: yes
