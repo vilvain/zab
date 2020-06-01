@@ -198,8 +198,10 @@
       detach: yes
 
 #TLS varmenteet
-  - name: Varmenne
+  - name: Luetaan varmenteet muuttujiin
     include_vars: varmenteet.yml
+
+  - name: Varmenne
     copy:
       content: '{{ varmenne }}'
       dest: /etc/ssl/nginx/ssl.crt
@@ -208,7 +210,6 @@
       mode: 0644
 
   - name: Avain
-    include_vars: varmenteet.yml
     copy:
       content: '{{ avain }}'
       dest: /etc/ssl/nginx/ssl.key
