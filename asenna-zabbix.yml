@@ -207,7 +207,7 @@
       state: directory
       owner: root
       group: root
-      mode: 0644
+      mode: 0655
 
   - name: Varmenne
     copy:
@@ -223,7 +223,7 @@
       dest: /etc/ssl/nginx/ssl.key
       owner: root
       group: root
-      mode: 0600
+      mode: 0644
 
   - name: Avain
     copy:
@@ -231,7 +231,7 @@
       dest: /etc/ssl/nginx/dhparam.pem
       owner: root
       group: root
-      mode: 0600
+      mode: 0644
 
   - name: Reverse proxy
     docker_container:
