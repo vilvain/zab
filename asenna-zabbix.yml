@@ -255,10 +255,10 @@
 
   - name: Agentti
     docker_container:
-      name: zabbix-agent-host
-      image: zabbix/zabbix-agent:tag
+      name: zabbix-agentti
+      image: zabbix/zabbix-agent:latest
       env: 
-        ZBX_HOSTNAME="some-hostname"
-        BX_SERVER_HOST="some-zabbix-server"
+        ZBX_HOSTNAME="zabbox"
+        ZBX_SERVER_HOST="zabbox"
       restart_policy: unless-stopped
       detach: yes
