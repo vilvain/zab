@@ -2,6 +2,7 @@
   hosts: all
   become: yes
   become_user: root
+  include_vars: varmenteet.yml
   tasks:
 
 #perus
@@ -164,6 +165,7 @@
         POSTGRES_USER: "zabbix"
         POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
         POSTGRES_DB: "zabbix"
+      restart_policy: unless-stopped
       detach: yes
 
   - name: SNMP serveri
@@ -175,6 +177,7 @@
       - /var/lib/zabbix/mibs:/usr/share/snmp/mibs:ro
       ports:
       - "162:162/udp"
+      restart_policy: unless-stopped
       detach: yes
 
   - name: Zabbix
@@ -191,8 +194,28 @@
       ports:
       - "10051:10051"
       volumes_from:
-      - zabbix-snmptraps  
+      - zabbix-snmptraps
+      restart_policy: unless-stopped
       detach: yes
+
+#TLS varmenteet
+  - name: Varmenne
+    copy:
+      content: '{{ ssl_certificate }}'
+      dest: /etc/ssl/nginx/ssl.crt
+      owner: zabbix
+      group: zabbix
+      mode: 0644
+
+  - name: Avain
+    copy:
+      content: '{{ ssl_private_key }}'
+      dest: /etc/ssl/nginx/ssl.key
+      owner: zabbix
+      group: zabbix
+      mode: 0600
+    no_log: true
+
 
   - name: Reverse proxy
     docker_container:
@@ -207,7 +230,8 @@
       - "postgres-server:postgres"
       - "zabbix-server-pgsql:zabbix-server"
       ports:
-      - "443:443"
+      - "443:8443"
       volumes:
       - /etc/ssl/nginx:/etc/ssl/nginx:ro
+      restart_policy: unless-stopped
       detach: yes
