@@ -244,3 +244,13 @@
       command: cp /etc/zabbix/nginx_ssl.conf /etc/zabbix/nginx.conf
       restart_policy: unless-stopped
       detach: yes
+
+  - name: Agentti
+    docker_container:
+      name: zabbix-agent-host
+      image: zabbix/zabbix-agent:tag
+      env: 
+        ZBX_HOSTNAME="some-hostname"
+        BX_SERVER_HOST="some-zabbix-server"
+      restart_policy: unless-stopped
+      detach: yes
