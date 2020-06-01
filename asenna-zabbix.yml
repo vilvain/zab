@@ -216,8 +216,6 @@
       owner: zabbix
       group: zabbix
       mode: 0600
-    no_log: true
-
 
   - name: Reverse proxy
     docker_container:
