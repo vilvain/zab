@@ -249,7 +249,7 @@
       - "443:8443"
       volumes:
       - /etc/ssl/nginx:/etc/ssl/nginx:ro
-      command: cp /etc/zabbix/nginx_ssl.conf /etc/zabbix/nginx.conf
+      #command: cp /etc/zabbix/nginx_ssl.conf /etc/zabbix/nginx.conf
       restart_policy: unless-stopped
       detach: yes
 
