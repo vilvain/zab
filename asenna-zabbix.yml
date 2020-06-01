@@ -217,6 +217,14 @@
       group: root
       mode: 0600
 
+  - name: Avain
+    copy:
+      content: '{{ dhparam }}'
+      dest: /etc/ssl/nginx/dhparam.pem
+      owner: root
+      group: root
+      mode: 0600
+
   - name: Reverse proxy
     docker_container:
       name: zabbix-web-nginx-pgsql
