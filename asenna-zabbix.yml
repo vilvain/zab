@@ -38,12 +38,18 @@
       state: latest
 
 #ei valttis tarvetta tuotantoon, mutta devaukseen must
-  - name: Asennetaan diagnostiikat
+  - name: Asennetaan epel, pitaa olla ennen muita koska tulevat taalta
     yum:
       name: "{{ paketit }}"
     vars:
       paketit:
       - epel-release
+
+  - name: Asennetaan diagnostiikat
+    yum:
+      name: "{{ paketit }}"
+    vars:
+      paketit:
       - net-tools
       - tcpdump
       - htop
