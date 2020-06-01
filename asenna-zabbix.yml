@@ -257,7 +257,7 @@
       name: zabbix-agentti
       image: zabbix/zabbix-agent:latest
       env: 
-        ZBX_HOSTNAME="zabbox"
-        ZBX_SERVER_HOST="zabbox"
+        ZBX_HOSTNAME="zabbox.testi.lol"
+        ZBX_SERVER_HOST="zabbox.testi.lol"
       restart_policy: unless-stopped
       detach: yes
