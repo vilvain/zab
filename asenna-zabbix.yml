@@ -2,7 +2,6 @@
   hosts: all
   become: yes
   become_user: root
-  include_vars: varmenteet.yml
   tasks:
 
 #perus
@@ -200,16 +199,18 @@
 
 #TLS varmenteet
   - name: Varmenne
+    include_vars: varmenteet.yml
     copy:
-      content: '{{ ssl_certificate }}'
+      content: '{{ varmenne }}'
       dest: /etc/ssl/nginx/ssl.crt
       owner: zabbix
       group: zabbix
       mode: 0644
 
   - name: Avain
+    include_vars: varmenteet.yml
     copy:
-      content: '{{ ssl_private_key }}'
+      content: '{{ avain }}'
       dest: /etc/ssl/nginx/ssl.key
       owner: zabbix
       group: zabbix
