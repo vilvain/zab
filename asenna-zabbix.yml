@@ -8,7 +8,7 @@
   - name: Konffataan secondari palvelut kuten gateway
     shell: nmcli con mod "System eth0" ipv4.gateway 192.168.100.1;nmcli con up "System eth0"
 
-  - name: Konffataan secondari palvelut kuten gatedns
+  - name: Konffataan secondari palvelut kuten dns
     shell: nmcli con mod "System eth0" ipv4.dns 9.9.9.9;nmcli con up "System eth0"
 
 
