@@ -201,6 +201,14 @@
   - name: Luetaan varmenteet muuttujiin
     include_vars: varmenteet.yml
 
+  - name: Tyokansio
+    file:
+      path: /etc/ssl/nginx
+      state: directory
+      owner: root
+      group: root
+      mode: 0644
+
   - name: Varmenne
     copy:
       content: '{{ varmenne }}'
