@@ -205,16 +205,16 @@
     copy:
       content: '{{ varmenne }}'
       dest: /etc/ssl/nginx/ssl.crt
-      owner: zabbix
-      group: zabbix
+      owner: root
+      group: root
       mode: 0644
 
   - name: Avain
     copy:
       content: '{{ avain }}'
       dest: /etc/ssl/nginx/ssl.key
-      owner: zabbix
-      group: zabbix
+      owner: root
+      group: root
       mode: 0600
 
   - name: Reverse proxy
