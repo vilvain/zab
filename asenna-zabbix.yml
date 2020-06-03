@@ -158,8 +158,8 @@
 
   - name: Kanta
     docker_container:
-      name: postgres-server
-      image: postgres:latest
+      name: db
+      image: postgres:12.3
       env: 
         POSTGRES_USER: "zabbix"
         POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
@@ -169,7 +169,7 @@
 
   - name: SNMP serveri
     docker_container:
-      name: zabbix-snmptraps
+      name: snmp
       image: zabbix/zabbix-snmptraps:latest
       volumes:
       - /zbx_instance/snmptraps:/var/lib/zabbix/snmptraps:rw
@@ -179,21 +179,21 @@
       restart_policy: unless-stopped
       detach: yes
 
-  - name: Zabbix
+  - name: Zabbix Server
     docker_container:
-      name: zabbix-server-pgsql
+      name: server
       image: zabbix/zabbix-server-pgsql:latest
       env: 
-        DB_SERVER_HOST: "postgres-server"
+        DB_SERVER_HOST: "db"
         POSTGRES_USER: "zabbix"
         POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
         POSTGRES_DB: "zabbix"
       links:
-      - "postgres-server:postgres"
+      - "db:postgres"
       ports:
       - "10051:10051"
       volumes_from:
-      - zabbix-snmptraps
+      - snmp
       restart_policy: unless-stopped
       detach: yes
 
@@ -235,16 +235,16 @@
 
   - name: Reverse proxy
     docker_container:
-      name: zabbix-web-nginx-pgsql
+      name: web
       image: zabbix/zabbix-web-nginx-pgsql:latest
       env: 
-        DB_SERVER_HOST: "postgres-server"
+        DB_SERVER_HOST: "db"
         POSTGRES_USER: "zabbix"
         POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
         POSTGRES_DB: "zabbix"
       links:
-      - "postgres-server:postgres"
-      - "zabbix-server-pgsql:zabbix-server"
+      - "db:postgres"
+      - "server:zabbix-server"
       ports:
       - "443:8443"
       volumes:
@@ -254,7 +254,7 @@
 
   - name: Agentti
     docker_container:
-      name: zabbix-agentti
+      name: agentti
       image: zabbix/zabbix-agent:latest
       env: 
         ZBX_HOSTNAME="zabbox.testi.lol"
