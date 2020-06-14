@@ -34,6 +34,10 @@
   args:
     warn: no
 
+#TLS varmenteet
+- name: Luetaan varmenteet muuttujiin
+  include_vars: varmenteet.yml
+
 - name: Varmenne
   copy:
     content: '{{ varmenne }}'
