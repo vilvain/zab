@@ -1,0 +1,206 @@
+#docker alusta
+- name: Lisataan docker-ce repo
+  shell: curl https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+  args:
+    warn: no
+
+- name: Haetaan docker-ce repo
+  shell: yum makecache 
+  args:
+    warn: no
+
+- name: Sitten tykitetaan paketteja
+  yum:
+    name: "{{ paketit }}"
+  vars:
+    paketit:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+    - epel-release
+    - python3
+
+- name: Asennetaan docker-ce
+  shell: dnf -y install docker-ce --nobest
+  args:
+    warn: no
+
+- name: Asennetaan docker-compose
+  shell: pip3 install docker-compose
+
+- name: Oikkarit dockerille
+  shell: usermod -aG docker $(whoami)
+
+- name: Palomuuri docker0 - trusted
+  firewalld:
+    zone: trusted
+    interface: docker0
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri docker0 - masquerade
+  firewalld:
+    zone: trusted
+    masquerade: yes
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - https
+  firewalld:
+    zone: public
+    service: https
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - masquerade
+  firewalld:
+    zone: public
+    masquerade: yes
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Docker pystyyn
+  service:
+    name: docker.service
+    state: started
+    enabled: yes
+
+- name: Paivitetaan pythonit 
+  shell: yum upgrade python*
+  args:
+    warn: no
+
+#zabbixi
+
+- name: Asennetaan git
+  yum:
+    name: git
+    state: latest
+
+- name: Tyokansio
+  file:
+    path: /opt/git/
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Asennetaan git
+  git:
+    repo: https://github.com/zabbix/zabbix-docker.git
+    dest: /opt/git/zabbix-docker/
+    version: "5.0"
+
+#docker kontit
+
+
+- name: Kanta
+  docker_container:
+    name: db
+    image: postgres:12.3
+    env: 
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+      POSTGRES_DB: "zabbix"
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: SNMP serveri
+  docker_container:
+    name: snmp
+    image: zabbix/zabbix-snmptraps:latest
+    volumes:
+    - /zbx_instance/snmptraps:/var/lib/zabbix/snmptraps:rw
+    - /var/lib/zabbix/mibs:/usr/share/snmp/mibs:ro
+    ports:
+    - "162:162/udp"
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: Zabbix Server
+  docker_container:
+    name: server
+    image: zabbix/zabbix-server-pgsql:latest
+    env: 
+      DB_SERVER_HOST: "db"
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+      POSTGRES_DB: "zabbix"
+    links:
+    - "db:postgres"
+    ports:
+    - "10051:10051"
+    volumes_from:
+    - snmp
+    restart_policy: unless-stopped
+    detach: yes
+
+#TLS varmenteet
+- name: Luetaan varmenteet muuttujiin
+  include_vars: varmenteet.yml
+
+- name: Tyokansio
+  file:
+    path: /etc/ssl/nginx
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Varmenne
+  copy:
+    content: '{{ varmenne }}'
+    dest: /etc/ssl/nginx/ssl.crt
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ avain }}'
+    dest: /etc/ssl/nginx/ssl.key
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ dhparam }}'
+    dest: /etc/ssl/nginx/dhparam.pem
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Reverse proxy
+  docker_container:
+    name: web
+    image: zabbix/zabbix-web-nginx-pgsql:latest
+    env: 
+      DB_SERVER_HOST: "db"
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+      POSTGRES_DB: "zabbix"
+    links:
+    - "db:postgres"
+    - "server:zabbix-server"
+    ports:
+    - "443:8443"
+    volumes:
+    - /etc/ssl/nginx:/etc/ssl/nginx:ro
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: Agentti
+  docker_container:
+    name: agentti
+    image: zabbix/zabbix-agent:latest
+    env: 
+      ZBX_HOSTNAME="zabbox.testi.lol"
+      ZBX_SERVER_HOST="zabbox.testi.lol"
+    restart_policy: unless-stopped
+    detach: yes
