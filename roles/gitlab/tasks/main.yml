@@ -30,7 +30,7 @@
     warn: no
 
 - name: Asennetaan gitlabi DNS nimella
-  shell: sudo EXTERNAL_URL="https://torsala.fi" dnf install -y gitlab-ee
+  shell: sudo EXTERNAL_URL="https://torsala.fi" dnf install -y gitlab-ce
   args:
     warn: no
 
@@ -53,3 +53,8 @@
     owner: root
     group: root
     mode: 0600
+
+- name: Lopuksi gitlabin restartti
+  shell: gitlab-ctl restart
+  args:
+    warn: no
