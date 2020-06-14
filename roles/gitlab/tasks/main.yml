@@ -1,0 +1,36 @@
+#gitlabi
+- name: Asennetaan policycoreutils
+  dnf:
+    name: policycoreutils 
+    state: latest
+
+- name: Palomuuri public - https
+  firewalld:
+    zone: public
+    service: https
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Asennetaan postfix  
+  dnf:
+    name: postfix 
+    state: latest
+
+- name: Postfix pystyyn
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+#itse gitlabi
+- name: Lisataan gitlab repo
+  shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
+  args:
+    warn: no
+
+- name: Asennetaan gitlabi DNS nimella
+  shell: sudo EXTERNAL_URL="https://torsala.fi" dnf install -y gitlab-ee
+  args:
+    warn: no
+
