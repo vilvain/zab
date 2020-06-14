@@ -168,7 +168,7 @@
     group: root
     mode: 0644
 
-- name: Avain
+- name: Parametrit
   copy:
     content: '{{ dhparam }}'
     dest: /etc/ssl/nginx/dhparam.pem

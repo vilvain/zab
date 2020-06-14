@@ -34,3 +34,18 @@
   args:
     warn: no
 
+- name: Varmenne
+  copy:
+    content: '{{ varmenne }}'
+    dest: /etc/gitlab/ssl/torsala.fi.crt
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ avain }}'
+    dest: /etc/gitlab/ssl/torsala.fi.key
+    owner: root
+    group: root
+    mode: 0600
