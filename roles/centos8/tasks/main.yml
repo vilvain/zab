@@ -48,3 +48,7 @@
     - tcpdump
     - htop
     - iotop
+
+- name: Laitetaan hostname
+  hostname:
+    name: "{{ ansible_hostname }}"
