@@ -87,10 +87,11 @@
   template: src=gitlab.rb.j2 dest="{{ gitlab_config_dir }}/gitlab.rb" owner=root group=root mode=0644
 
 - name: deploy gitlab NGINX configuration
-  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/gitlab.conf owner=root group=root mode=0644
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/gitlab.conf owner=root group=root mode=0644
 
-- name: Enable gitlab NGINX configuration
-  file: src=/etc/nginx/sites-available/gitlab.conf dest=/etc/nginx/sites-enabled/gitlab.conf state=link
+#debian paskaa
+#- name: Enable gitlab NGINX configuration
+#  file: src=/etc/nginx/sites-available/gitlab.conf dest=/etc/nginx/sites-enabled/gitlab.conf state=link
 
 - name: Restart NGINX
   service: name=nginx state=restarted
