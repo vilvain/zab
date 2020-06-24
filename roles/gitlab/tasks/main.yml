@@ -93,8 +93,8 @@
 #- name: Enable gitlab NGINX configuration
 #  file: src=/etc/nginx/sites-available/gitlab.conf dest=/etc/nginx/sites-enabled/gitlab.conf state=link
 
-- name: Restart NGINX
-  service: name=nginx state=restarted
+#- name: Restart NGINX
+#  service: name=nginx state=restarted
 
 # - name: Lopuksi gitlabin restartti
 #   shell: gitlab-ctl restart
