@@ -1,0 +1,68 @@
+#docker alusta
+- name: Lisataan docker-ce repo
+  shell: curl https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+  args:
+    warn: no
+
+- name: Haetaan docker-ce repo
+  shell: yum makecache 
+  args:
+    warn: no
+
+- name: Sitten tykitetaan paketteja
+  yum:
+    name: "{{ paketit }}"
+  vars:
+    paketit:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+    - epel-release
+    - python3
+
+- name: Asennetaan docker-ce
+  shell: dnf -y install docker-ce --nobest
+  args:
+    warn: no
+
+- name: Asennetaan docker-compose
+  shell: pip3 install docker-compose
+
+- name: Oikkarit dockerille
+  shell: usermod -aG docker $(whoami)
+
+- name: Palomuuri docker0 - trusted
+  firewalld:
+    zone: trusted
+    interface: docker0
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri docker0 - masquerade
+  firewalld:
+    zone: trusted
+    masquerade: yes
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - masquerade
+  firewalld:
+    zone: public
+    masquerade: yes
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Docker pystyyn
+  service:
+    name: docker.service
+    state: started
+    enabled: yes
+
+- name: Paivitetaan pythonit 
+  shell: yum upgrade python*
+  args:
+    warn: no

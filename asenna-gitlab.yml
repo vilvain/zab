@@ -4,4 +4,6 @@
   become_user: root
   roles:
   - centos8
+  - os-prep
+  - docker
   - gitlab

@@ -1,0 +1,37 @@
+- name: Asennetaan aika
+  dnf:
+    name: chrony
+    state: latest
+
+- name: Asennetaan aika
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- name: Paivitetaan kaikki
+  dnf:
+    name: "*"
+    state: latest
+
+#ei valttis tarvetta tuotantoon, mutta devaukseen must
+- name: Asennetaan epel, pitaa olla ennen muita koska tulevat taalta
+  yum:
+    name: "{{ paketit }}"
+  vars:
+    paketit:
+    - epel-release
+
+- name: Asennetaan diagnostiikat
+  yum:
+    name: "{{ paketit }}"
+  vars:
+    paketit:
+    - net-tools
+    - tcpdump
+    - htop
+    - iotop
+
+- name: Laitetaan hostname
+  hostname:
+    name: "{{ ansible_hostname }}"
