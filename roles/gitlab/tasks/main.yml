@@ -35,6 +35,10 @@
 #     warn: no
 
 
+#TLS varmenteet
+- name: Luetaan varmenteet muuttujiin
+  include_vars: gitlab.yml
+
 - name: Create gitlab directories
   file: path={{ item }} recurse=yes state=directory
   with_items:
