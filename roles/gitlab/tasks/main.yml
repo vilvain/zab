@@ -12,27 +12,35 @@
     immediate: yes
     state: enabled
 
-- name: Asennetaan postfix  
-  dnf:
-    name: postfix 
-    state: latest
+# - name: Asennetaan postfix  
+#   dnf:
+#     name: postfix 
+#     state: latest
 
-- name: Postfix pystyyn
-  service:
-    name: postfix
-    state: started
-    enabled: yes
+# - name: Postfix pystyyn
+#   service:
+#     name: postfix
+#     state: started
+#     enabled: yes
 
-#itse gitlabi
-- name: Lisataan gitlab repo
-  shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
-  args:
-    warn: no
+# #itse gitlabi
+# - name: Lisataan gitlab repo
+#   shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
+#   args:
+#     warn: no
 
-- name: Asennetaan gitlabi DNS nimella
-  shell: sudo EXTERNAL_URL="https://torsala.fi" dnf install -y gitlab-ee
-  args:
-    warn: no
+# - name: Asennetaan gitlabi DNS nimella
+#   shell: sudo EXTERNAL_URL="https://torsala.fi" dnf install -y gitlab-ee
+#   args:
+#     warn: no
+
+
+- name: Create gitlab directories
+  file: path={{ item }} recurse=yes state=directory
+  with_items:
+    - "{{ gitlab_config_dir }}"
+    - "{{ gitlab_logs_dir }}"
+    - "{{ gitlab_data_dir }}"
 
 #TLS varmenteet
 - name: Luetaan varmenteet muuttujiin
@@ -41,7 +49,7 @@
 - name: Varmenne
   copy:
     content: '{{ varmenne }}'
-    dest: /etc/gitlab/ssl/torsala.fi.crt
+    dest: '{{ gitlab_fullchain }}'
     owner: root
     group: root
     mode: 0644
@@ -49,12 +57,40 @@
 - name: Avain
   copy:
     content: '{{ avain }}'
-    dest: /etc/gitlab/ssl/torsala.fi.key
+    dest: '{{ gitlab_cert_key }}'
     owner: root
     group: root
     mode: 0600
 
-- name: Lopuksi gitlabin restartti
-  shell: gitlab-ctl restart
-  args:
-    warn: no
+#kontti
+- name: Install Gitlab container
+  docker_container:
+    name: gitlab
+    image: "{{ gitlab_image }}"
+    state: started
+    ports:
+      - "{{ gitlab_ssh_port }}:22"
+      - "{{ gitlab_http_port }}:80"
+      - "{{ gitlab_https_port }}:443"
+    volumes:
+      - "{{ gitlab_config_dir }}:/etc/gitlab"
+      - "{{ gitlab_logs_dir }}:/var/log/gitlab"
+      - "{{ gitlab_data_dir }}:/var/opt/gitlab"
+    restart_policy: always
+
+- name: deploy gitlab configuration
+  template: src=gitlab.rb.j2 dest="{{ gitlab_config_dir }}/gitlab.rb" owner=root group=root mode=0644
+
+- name: deploy gitlab NGINX configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/gitlab.conf owner=root group=root mode=0644
+
+- name: Enable gitlab NGINX configuration
+  file: src=/etc/nginx/sites-available/gitlab.conf dest=/etc/nginx/sites-enabled/gitlab.conf state=link
+
+- name: Restart NGINX
+  service: name=nginx state=restarted
+
+# - name: Lopuksi gitlabin restartti
+#   shell: gitlab-ctl restart
+#   args:
+#     warn: no
