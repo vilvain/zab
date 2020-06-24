@@ -45,6 +45,7 @@
     - "{{ gitlab_config_dir }}"
     - "{{ gitlab_logs_dir }}"
     - "{{ gitlab_data_dir }}"
+    - "{{ gitlab_certdir }}"
 
 #TLS varmenteet
 - name: Luetaan varmenteet muuttujiin
