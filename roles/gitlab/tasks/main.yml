@@ -4,10 +4,26 @@
     name: policycoreutils 
     state: latest
 
-- name: Palomuuri public - https
+- name: Palomuuri public - http eri portissa
   firewalld:
     zone: public
-    service: https
+    port: 10080/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - https eri portissa
+  firewalld:
+    zone: public
+    port: 10433/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - ssh eri portissa
+  firewalld:
+    zone: public
+    port: 10022/tcp
     permanent: yes
     immediate: yes
     state: enabled

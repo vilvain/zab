@@ -5,7 +5,7 @@ gitlab_cert_dir: "/srv/gitlab/ssl"
 
 gitlab_image: "gitlab/gitlab-ce:latest"
 
-gitlab_ssh_port: "1022"
+gitlab_ssh_port: "10022"
 gitlab_https_port: "10443"
 gitlab_http_port: "10080"
 gitlab_site: "torsala.fi"
