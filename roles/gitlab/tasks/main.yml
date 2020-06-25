@@ -98,8 +98,8 @@
     state: started
     ports:
       - "{{ gitlab_ssh_port }}:22"
-      - "{{ gitlab_http_port }}:80"
-      - "{{ gitlab_https_port }}:443"
+#      - "{{ gitlab_http_port }}:80"
+      - "443:443"
     volumes:
       - "{{ gitlab_config_dir }}:/etc/gitlab:Z"
       - "{{ gitlab_logs_dir }}:/var/log/gitlab:Z"
