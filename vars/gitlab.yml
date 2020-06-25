@@ -1,7 +1,7 @@
 gitlab_config_dir: "/srv/gitlab/config"
 gitlab_logs_dir: "/srv/gitlab/logs"
 gitlab_data_dir: "/srv/gitlab/data"
-gitlab_certdir: "/srv/gitlab/ssl"
+gitlab_cert_dir: "/srv/gitlab/ssl"
 
 gitlab_image: "gitlab/gitlab-ce:latest"
 
