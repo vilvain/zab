@@ -98,7 +98,7 @@
     state: started
     ports:
       - "{{ gitlab_ssh_port }}:22"
-#      - "{{ gitlab_http_port }}:80"
+      - "{{ gitlab_http_port }}:80"
       - "443:443"
     volumes:
       - "{{ gitlab_config_dir }}:/etc/gitlab:Z"
