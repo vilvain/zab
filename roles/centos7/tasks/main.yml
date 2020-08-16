@@ -19,7 +19,7 @@
 #      state: present
 
 - name: Asennetaan aika
-  dnf:
+  yum:
     name: chrony
     state: latest
 
@@ -30,6 +30,6 @@
     enabled: yes
 
 - name: Paivitetaan kaikki
-  dnf:
+  yum:
     name: "*"
     state: latest
