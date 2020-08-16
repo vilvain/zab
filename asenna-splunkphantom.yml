@@ -3,5 +3,5 @@
   become: yes
   become_user: root
   roles:
-  - centos8
+  - centos7
   - os-prep
