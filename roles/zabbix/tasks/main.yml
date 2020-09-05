@@ -136,8 +136,8 @@
 
 - name: Agentin conffi
   template:
-    src: zabbix_agent.conf.j2
-    dest: /opt/zabbix/zabbix_agent.d/zabbix_agent.conf
+    src: zabbix_agentd.conf.j2
+    dest: /opt/zabbix/zabbix_agent.d/zabbix_agentd.conf
     owner: root
     group: root
     mode: 0644
