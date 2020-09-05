@@ -75,9 +75,9 @@
 - name: Luetaan varmenteet muuttujiin
   include_vars: varmenteet.yml
 
-- name: Tyokansio
+- name: Varmenteiden tyokansio
   file:
-    path: /etc/ssl/nginx
+    path: /opt/zabbix/ssl/
     state: directory
     owner: root
     group: root
@@ -86,7 +86,7 @@
 - name: Varmenne
   copy:
     content: '{{ varmenne }}'
-    dest: /etc/ssl/nginx/ssl.crt
+    dest: /opt/zabbix/ssl/nginx/ssl.crt
     owner: root
     group: root
     mode: 0644
@@ -94,7 +94,7 @@
 - name: Avain
   copy:
     content: '{{ avain }}'
-    dest: /etc/ssl/nginx/ssl.key
+    dest: /opt/zabbix/ssl/nginx/ssl.key
     owner: root
     group: root
     mode: 0644
@@ -102,7 +102,7 @@
 - name: Parametrit
   copy:
     content: '{{ dhparam }}'
-    dest: /etc/ssl/nginx/dhparam.pem
+    dest: /opt/zabbix/ssl/nginx/dhparam.pem
     owner: root
     group: root
     mode: 0644
@@ -122,9 +122,25 @@
     ports:
     - "443:8443"
     volumes:
-    - /etc/ssl/nginx:/etc/ssl/nginx:ro
+    - /opt/zabbix/ssl/nginx:/etc/ssl/nginx:ro
     restart_policy: unless-stopped
     detach: yes
+
+- name: Agentin tyokansio
+  file:
+    path: /opt/zabbix/zabbix_agent.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Agentin conffi
+  template:
+    src: zabbix_agent.conf.j2
+    dest: /opt/zabbix/zabbix_agent.d/zabbix_agent.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Agentti
   docker_container:
@@ -133,5 +149,7 @@
     env: 
       ZBX_HOSTNAME="zabbox.testi.lol"
       ZBX_SERVER_HOST="zabbox.testi.lol"
+    volumes:
+      /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
     restart_policy: unless-stopped
     detach: yes
