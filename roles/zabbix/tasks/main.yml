@@ -77,7 +77,7 @@
 
 - name: Varmenteiden tyokansio
   file:
-    path: /opt/zabbix/ssl/
+    path: /opt/zabbix/ssl/nginx/
     state: directory
     owner: root
     group: root
