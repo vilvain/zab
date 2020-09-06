@@ -19,15 +19,15 @@
     - lvm2
     - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
     - epel-release
-    - python3
+#    - python3
 
 - name: Asennetaan docker-ce
   shell: dnf -y install docker-ce --nobest
   args:
     warn: no
 
-- name: Asennetaan docker-compose
-  shell: pip3 install docker-compose
+#- name: Asennetaan docker-compose
+#  shell: pip3 install docker-compose
 
 - name: Oikkarit dockerille
   shell: usermod -aG docker $(whoami)
@@ -62,7 +62,7 @@
     state: started
     enabled: yes
 
-- name: Paivitetaan pythonit 
-  shell: yum upgrade python*
-  args:
-    warn: no
+#- name: Paivitetaan pythonit 
+#  shell: yum upgrade python*
+#  args:
+#    warn: no
