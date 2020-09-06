@@ -19,7 +19,7 @@
     name: agentti
     image: zabbix/zabbix-agent:latest
     env: 
-      ZBX_HOSTNAME="zabbox.testi.lol"
+#      ZBX_HOSTNAME="zabbox.testi.lol"
       ZBX_SERVER_HOST="zabbox.testi.lol"
     ports:
     - "10050:10050"
