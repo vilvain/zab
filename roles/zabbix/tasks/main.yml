@@ -148,7 +148,9 @@
     image: zabbix/zabbix-agent:latest
     env: 
       ZBX_HOSTNAME="zabbox.testi.lol"
-      ZBX_SERVER_HOST="192.168.100.0/24,172.17.0.0/24"
+      ZBX_SERVER_HOST="zabbox.testi.lol"
+      ZBX_PASSIVESERVERS="zabbox.testi.lol"
+      ZBX_ACTIVESERVERS="zabbox.testi.lol"
     ports:
     - "10050:10050"
     volumes:
