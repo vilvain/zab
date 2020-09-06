@@ -1,0 +1,29 @@
+- name: Agentin tyokansio
+  file:
+    path: /opt/zabbix/zabbix_agent.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Agentin conffi
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: /opt/zabbix/zabbix_agent.d/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Agentti
+  docker_container:
+    name: agentti
+    image: zabbix/zabbix-agent:latest
+    env: 
+      ZBX_HOSTNAME="zabbox.testi.lol"
+      ZBX_SERVER_HOST="zabbox.testi.lol,172.17.0.0/24"
+    ports:
+    - "10050:10050"
+    volumes:
+      /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
+    restart_policy: unless-stopped
+    detach: yes
