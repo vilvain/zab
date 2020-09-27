@@ -1,4 +1,7 @@
 #rocket chat
+- name: muuttuja
+  rc_fqdn: sokkeli.testi.lol
+
 - name: Asennetaan policycoreutils
   dnf:
     name: policycoreutils 
@@ -29,7 +32,7 @@
 - name: Lisaa hosti dns
   lineinfile:
     dest: /etc/hosts
-    line: "127.0.0.1 sokkeli.fi"
+    line: "127.0.0.1 {{rc_fqdn}}"
     state: present
 
 - name: dhparam nginx varten
@@ -57,8 +60,8 @@
     country_name: CL
     organization_name: Valtori
     email_address: ville.vainikka@valtori.fi
-    common_name: sokkeli.fi
-    subject_alt_name: 'DNS:sokkeli.fi'
+    common_name: {{rc_fqdn}}
+    subject_alt_name: 'DNS:{{rc_fqdn}}'
 
 - name: Certti - certti
   openssl_certificate:
