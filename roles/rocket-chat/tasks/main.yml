@@ -36,8 +36,22 @@
     mode: 0655
 
 
+- name: Certti - priva avain
+  openssl_privatekey:
+    path: /opt/rocketchat/rocketchat.key
+    type: RSA
 
-- name: Tee certti
+- name: Certti - csr
+  openssl_csr:
+    path: /opt/rocketchat/rocketchat.csr
+    privatekey_path:  /opt/rocketchat/rocketchat.key
+    country_name: CL
+    organization_name: Valtori
+    email_address: ville.vainikka@valtori.fi
+    common_name: sokkeli.fi
+    subject_alt_name: 'DNS:sokkeli.fi'
+
+- name: Certti - certti
   openssl_certificate:
     path: /opt/rocketchat/rocketchat.crt
     privatekey_path: /opt/rocketchat/rocketchat.key
