@@ -1,0 +1,28 @@
+#gitlabi
+- name: Asennetaan policycoreutils
+  dnf:
+    name: policycoreutils 
+    state: latest
+
+- name: Palomuuri public - http eri portissa
+  firewalld:
+    zone: public
+    port: 443/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+#kontti
+- name: Install Rocket Chat container
+  docker_container:
+    name: gitlab
+    image: "{{ gitlab_image }}"
+    state: started
+    ports:
+      - "{{ gitlab_ssh_port }}:22"
+      - "{{ gitlab_http_port }}:80"
+      - "443:443"
+    volumes:
+      - "{{ gitlab_config_dir }}:/etc/gitlab:Z"
+      - "{{ gitlab_logs_dir }}:/var/log/gitlab:Z"
+      - "{{ gitlab_data_dir }}:/var/opt/gitlab:Z"
+    restart_policy: always
