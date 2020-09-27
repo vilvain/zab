@@ -26,6 +26,12 @@
   shell: chmod +x /usr/local/bin/docker-compose
 
 
+- name: Lisaa hosti dns
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 sokkeli.fi"
+    state: present
+
 - name: dhparam nginx varten
   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
 
@@ -81,6 +87,6 @@
     image: "rocketchat/rocket.chat:latest"
     state: started
     ports:
-      - "443:443"
+      - "3000:3000"
     restart_policy: always
 
