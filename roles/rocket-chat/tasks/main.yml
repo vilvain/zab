@@ -19,12 +19,15 @@
 - name: Asennetaan docker-py
   shell: pip3 install docker-py
 
-- name: Asennetaan docker-compose
-  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
+#- name: Asennetaan docker-compose
+#  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
 
-- name: Asennetaan docker-compose
-  shell: sudo chmod +x /usr/local/bin/docker-compose
+- name: docker-compose oikkarit
+  shell: chmod +x /usr/local/bin/docker-compose
 
+
+- name: dhparam nginx varten
+  shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
 
 
 - name: Tee kansio certille
@@ -57,6 +60,10 @@
     privatekey_path: /opt/rocketchat/rocketchat.key
     csr_path:  /opt/rocketchat/rocketchat.csr
     provider: selfsigned
+
+
+- name: Tee nginx conffig
+  template: src=nginx.conf.j2 dest="/opt/nginx/sites-available/default" owner=root group=root mode=0644
 
 
 - name: Palomuuri public - http eri portissa
