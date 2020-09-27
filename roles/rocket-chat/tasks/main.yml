@@ -27,6 +27,24 @@
 
 
 
+- name: Tee kansio certille
+  file:
+    path: /opt/rocketchat/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+
+
+- name: Tee certti
+  openssl_certificate:
+    path: /opt/rocketchat/rocketchat.crt
+    privatekey_path: /opt/rocketchat/rocketchat.key
+    csr_path:  /opt/rocketchat/rocketchat.csr
+    provider: selfsigned
+
+
 - name: Palomuuri public - http eri portissa
   firewalld:
     zone: public
@@ -38,7 +56,7 @@
 #kontti
 - name: Install Rocket Chat container
   docker_container:
-    name: gitlab
+    name: rocketchat
     image: "rocketchat/rocket.chat:latest"
     state: started
     ports:
