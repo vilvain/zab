@@ -1,8 +1,17 @@
-#gitlabi
+#rocket chat
 - name: Asennetaan policycoreutils
   dnf:
     name: policycoreutils 
     state: latest
+
+- name: Asennetaan python
+  dnf:
+    name: python3 
+    state: latest
+
+- name: Asennetaan docker-py
+  shell: pip3 install docker-py
+
 
 - name: Palomuuri public - http eri portissa
   firewalld:
