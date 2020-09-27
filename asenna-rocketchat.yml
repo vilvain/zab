@@ -5,4 +5,5 @@
   roles:
   - centos8
   - os-prep
+  - docker
   - rocket-chat
