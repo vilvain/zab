@@ -86,6 +86,10 @@
 - name: Asenna MongoDB kontti
   shell: docker run --name db -d mongo:4.0 --smallfiles --replSet rs0 --oplogSize 128
 
+- name: Odotetaan hetki
+  pause:
+    seconds: 5
+
 - name: Alusta Mongo
   shell: docker exec -ti db mongo --eval "printjson(rs.initiate())"
 
