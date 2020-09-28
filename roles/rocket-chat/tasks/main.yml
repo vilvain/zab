@@ -91,6 +91,11 @@
 - name: Tee nginx conffig
   template: src=nginx.conf.j2 dest="/etc/nginx/conf.d/nginx.conf" owner=root group=root mode=0644
 
+- name: kaynnista nginx
+  service:
+      name: nginx
+      state: started
+
 
 - name: Palomuuri public - http eri portissa
   firewalld:
@@ -108,18 +113,18 @@
   template: src=docker-compose.yml.j2 dest="/opt/rocketchat/docker-compose.yml" owner=root group=root mode=0644
 
 - name: Juoksuta compose
-  shell: docker-compose up -d mongo
+  shell: docker-compose -f docker-compose.yml up -d mongo
   args:
     chdir: /opt/rocketchat
 
 
 - name: Juoksuta compose
-  shell: docker-compose up -d mongo-init-replica
+  shell: docker-compose -f docker-compose.yml up -d mongo-init-replica
   args:
     chdir: /opt/rocketchat
 
 - name: Juoksuta compose
-  shell: docker-compose up -d rocketchat
+  shell: docker-compose -f docker-compose.yml up -d rocketchat
   args:
     chdir: /opt/rocketchat
   
