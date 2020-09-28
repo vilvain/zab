@@ -81,10 +81,12 @@
     immediate: yes
     state: enabled
 
-#kontit
+#kontit, taa pitaa korjata
+
 
 - name: Asenna MongoDB kontti
   shell: docker run --name db -d mongo:4.0 --smallfiles --replSet rs0 --oplogSize 128
+  ignore_errors: yesa
 
 - name: Odotetaan hetki
   pause:
