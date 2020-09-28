@@ -64,8 +64,14 @@
     group: root
     mode: 0655
 
+- name: Tarkistetaan dhparam
+  stat:
+    path: /opt/rocketchat/dhparams.pem
+  register: stat_result
+
 - name: dhparam nginx varten
   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
+  when: not state_result.stat.exists
 
 
 - name: Certti - priva avain
