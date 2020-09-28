@@ -32,8 +32,6 @@
     line: "127.0.0.1 sokkeli.testi.lol"
     state: present
 
-- name: dhparam nginx varten
-  shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
 
 
 - name: Tee kansio certille
@@ -43,6 +41,9 @@
     owner: root
     group: root
     mode: 0655
+
+- name: dhparam nginx varten
+  shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
 
 
 - name: Certti - priva avain
