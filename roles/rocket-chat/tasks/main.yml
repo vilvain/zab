@@ -33,8 +33,7 @@
     path: "{{ docker_compose_path }}"
     state: absent
   when: >
-    docker_compose_current_version.stdout is defined
-    and docker_compose_version not in docker_compose_current_version.stdout
+    docker_compose_current_version is not defined
 
 - name: Asennetaan docker-compose
   get_url:
