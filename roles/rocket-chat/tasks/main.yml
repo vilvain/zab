@@ -81,30 +81,54 @@
     immediate: yes
     state: enabled
 
+    
 #kontit, taa pitaa korjata
+#composella koska laiska
+
+- name: Tee docker-compose filu
+  template: src=docker-compose.yml.j2 dest="/opt/rocketchat/docker-compose.yml" owner=root group=root mode=0644
+
+- name: Juoksuta compose
+  shell: docker-compose up -d mongo
+  args:
+    chdir: /opt/rocketchat
 
 
-- name: Asenna MongoDB kontti
-  shell: docker run --name db -d mongo:4.0 --smallfiles --replSet rs0 --oplogSize 128
-  ignore_errors: yes
+- name: Juoksuta compose
+  shell: docker-compose up -d mongo-init-replica
+  args:
+    chdir: /opt/rocketchat
 
-- name: Odotetaan hetki
-  pause:
-    seconds: 5
-
-- name: Alusta Mongo
-  shell: docker exec -ti db mongo --eval "printjson(rs.initiate())"
-
+- name: Juoksuta compose
+  shell: docker-compose up -d rocketchat
+  args:
+    chdir: /opt/rocketchat
+  
 
 
-- name: Install Rocket Chat container
-  docker_container:
-    name: rc
-    image: "rocketchat/rocket.chat:latest"
-    state: started
-    ports:
-      - "3000:3000"
-    restart_policy: always
-    env:
-      ROOT_URL: "http://localhost"
-      MONGO_OPLOG_URL: "mongodb://db:27017/local"
+
+
+# - name: Asenna MongoDB kontti
+#   shell: docker run --name db -d mongo:4.0 --smallfiles --replSet rs0 --oplogSize 128
+#   ignore_errors: yes
+
+# - name: Odotetaan hetki
+#   pause:
+#     seconds: 5
+
+# - name: Alusta Mongo
+#   shell: docker exec -ti db mongo --eval "printjson(rs.initiate())"
+
+
+
+# - name: Install Rocket Chat container
+#   docker_container:
+#     name: rc
+#     image: "rocketchat/rocket.chat:latest"
+#     state: started
+#     ports:
+#       - "3000:3000"
+#     restart_policy: always
+#     env:
+#       ROOT_URL: "http://localhost"
+#       MONGO_OPLOG_URL: "mongodb://db:27017/local"
