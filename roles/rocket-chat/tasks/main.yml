@@ -67,11 +67,11 @@
 - name: Tarkistetaan dhparam
   stat:
     path: /opt/rocketchat/dhparams.pem
-  register: stat_result
+  register: onko_filua
 
 - name: dhparam nginx varten
   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
-  when: not state_result.stat.exists
+  when: not onko_filua.stat.exists
 
 
 - name: Certti - priva avain
