@@ -87,16 +87,6 @@
     csr_path:  /opt/rocketchat/rocketchat.csr
     provider: selfsigned
 
-
-- name: Tee nginx conffig
-  template: src=nginx.conf.j2 dest="/etc/nginx/conf.d/nginx.conf" owner=root group=root mode=0644
-
-- name: kaynnista nginx
-  service:
-      name: nginx
-      state: started
-
-
 - name: Palomuuri public - http eri portissa
   firewalld:
     zone: public
@@ -105,6 +95,17 @@
     immediate: yes
     state: enabled
 
+
+
+
+- name: Tee nginx conffig
+  template: src=nginx.conf.j2 dest="/etc/nginx/conf.d/nginx.conf" owner=root group=root mode=0644
+
+- name: kaynnista nginx
+  service:
+      name: nginx
+      state: restarted
+      enabled: yes
 
 #kontit, taa pitaa korjata
 #composella koska laiska
