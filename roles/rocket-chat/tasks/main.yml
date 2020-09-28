@@ -99,6 +99,8 @@
     state: enabled
 
 
+- name: Allowaan http proxytys SELinuxista
+  shell: semanage permissive -a httpd_t
 
 
 - name: Tee nginx conffig
