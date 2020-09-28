@@ -19,12 +19,31 @@
 - name: Asennetaan docker-py
   shell: pip3 install docker-py
 
+
+#composet
+
+- name: Tarkista versio
+  command: docker-compose --version
+  register: docker_compose_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Poista jos vaarin
+  file:
+    path: "{{ docker_compose_path }}"
+    state: absent
+  when: >
+    docker_compose_current_version.stdout is defined
+    and docker_compose_version not in docker_compose_current_version.stdout
+
 - name: Asennetaan docker-compose
-  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
 
-- name: docker-compose oikkarit
-  shell: chmod +x /usr/local/bin/docker-compose
-
+#- name: Asennetaan docker-compose
+#  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
 
 - name: Lisaa hosti dns
   lineinfile:
