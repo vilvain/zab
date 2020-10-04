@@ -104,6 +104,15 @@
     immediate: yes
     state: enabled
 
+- name: Palomuuri public - http eri portissa
+  firewalld:
+    zone: public
+    port: 80/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+
 
 - name: Allowaan http proxytys SELinuxista
   shell: semanage permissive -a httpd_t
