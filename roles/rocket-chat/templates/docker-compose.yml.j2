@@ -2,7 +2,7 @@ version: '2'
 
 services:
   rocketchat:
-    image: rocketchat/rocket.chat:latest
+    image: rocketchat/rocket.chat:3.7.0
     command: >
       bash -c
         "for i in `seq 1 30`; do
@@ -34,7 +34,7 @@ services:
       - "traefik.frontend.rule=Host: your.domain.tld"
 
   mongo:
-    image: mongo:4.0
+    image: mongo:4.4.1
     restart: unless-stopped
     volumes:
      - ./data/db:/data/db
