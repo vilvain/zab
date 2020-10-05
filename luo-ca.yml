@@ -35,8 +35,8 @@ rm -f /opt/ca/inter-ca/inter-ca.csr
 
 
 #nimet env muuttujiksi
-export SAN=DNS.1:sokkeli,DNS.2:sokkeli.testi.lol
-export CN=sokkeli
+export SAN=DNS.1:khala,DNS.2:khala.testi.lol
+export CN=khala
 
 #luodaan req ja allekirjoitetaan interilla
 openssl ecparam -genkey -name secp384r1 -out /opt/ca/server/$CN.key
@@ -44,3 +44,7 @@ openssl req -new -config /opt/ca/server/server.conf -key /opt/ca/server/$CN.key 
 openssl ca -config /opt/ca/inter-ca/inter-ca.conf -in /opt/ca/server/$CN.csr -out /opt/ca/server/$CN.crt -extensions server_ext -batch
 rm -f /opt/ca/server/$CN.csr
 
+mv -f /opt/ca/server/$CN.crt /opt/rocketchat/rocketchat.crt
+mv -f /opt/ca/server/$CN.key /opt/rocketchat/rocketchat.key
+
+systemctl restart nginx
