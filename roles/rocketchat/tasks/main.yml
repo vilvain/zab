@@ -89,7 +89,7 @@
     dest: /opt/rocketchat/dhparams.pem
     owner: root
     group: root
-    mode: 0600
+    mode: 0644
 
 # - name: Tarkistetaan dhparam
 #   stat:
@@ -99,7 +99,6 @@
 # - name: dhparam nginx varten
 #   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
 #   when: not onko_filua.stat.exists
-
 
 # - name: Certti - priva avain
 #   openssl_privatekey:
