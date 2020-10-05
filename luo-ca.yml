@@ -19,7 +19,7 @@ echo 01 > /opt/ca/inter-ca/db/inter-ca.crl.srl
 
 
 #kopio konffit
-
+###
 
 #luodaan root ja allekirjoitetaan itsellaan
 openssl ecparam -genkey -name secp384r1 -out /opt/ca/root-ca/root-ca.key
@@ -32,9 +32,6 @@ openssl ecparam -genkey -name secp384r1 -out /opt/ca/inter-ca/inter-ca.key
 openssl req -new -config /opt/ca/inter-ca/inter-ca.conf -key /opt/ca/inter-ca/inter-ca.key -out /opt/ca/inter-ca/inter-ca.csr
 openssl ca -config /opt/ca/root-ca/root-ca.conf -in /opt/ca/inter-ca/inter-ca.csr -out /opt/ca/inter-ca/inter-ca.crt -extensions signing_ca_ext -batch
 rm -f /opt/ca/inter-ca/inter-ca.csr
-
-
-
 
 
 #nimet env muuttujiksi
