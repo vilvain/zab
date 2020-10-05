@@ -9,19 +9,15 @@
     name: python3 
     state: latest
 
-
 - name: Asennetaan python
   dnf:
     name: nginx 
     state: latest
 
-
 - name: Asennetaan docker-py
   shell: pip3 install docker-py
 
-
 #composet
-
 - name: Tarkista versio
   command: docker-compose --version
   register: docker_compose_current_version
@@ -53,7 +49,6 @@
     dest: /etc/hosts
     line: "127.0.0.1 sokkeli.testi.lol"
     state: present
-
 
 #TLS varmenteet
 - name: Tee kansio certille
@@ -176,9 +171,6 @@
     chdir: /opt/rocketchat
   
 
-
-
-
 # - name: Asenna MongoDB kontti
 #   shell: docker run --name db -d mongo:4.0 --smallfiles --replSet rs0 --oplogSize 128
 #   ignore_errors: yes
@@ -189,8 +181,6 @@
 
 # - name: Alusta Mongo
 #   shell: docker exec -ti db mongo --eval "printjson(rs.initiate())"
-
-
 
 # - name: Install Rocket Chat container
 #   docker_container:
