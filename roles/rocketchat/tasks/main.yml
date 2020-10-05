@@ -55,7 +55,7 @@
     state: present
 
 
-
+#TLS varmenteet
 - name: Tee kansio certille
   file:
     path: /opt/rocketchat/
@@ -64,15 +64,41 @@
     group: root
     mode: 0655
 
-- name: Tarkistetaan dhparam
-  stat:
-    path: /opt/rocketchat/dhparams.pem
-  register: onko_filua
+- name: Luetaan varmenteet muuttujiin
+  include_vars: rocketchat.yml
 
-- name: dhparam nginx varten
-  shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
-  when: not onko_filua.stat.exists
-moi
+- name: Varmenne
+  copy:
+    content: '{{ varmenne }}'
+    dest: /opt/rocketchat/rocketchat.pem
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ avain }}'
+    dest: /opt/rocketchat/rocketchat.key
+    owner: root
+    group: root
+    mode: 0600
+
+- name: dhparams
+  copy:
+    content: '{{ dhparams }}'
+    dest: /opt/rocketchat/dhparams.pem
+    owner: root
+    group: root
+    mode: 0600
+
+# - name: Tarkistetaan dhparam
+#   stat:
+#     path: /opt/rocketchat/dhparams.pem
+#   register: onko_filua
+
+# - name: dhparam nginx varten
+#   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
+#   when: not onko_filua.stat.exists
 
 
 # - name: Certti - priva avain

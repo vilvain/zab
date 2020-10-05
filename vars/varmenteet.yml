@@ -62,7 +62,7 @@ avain: |
   Wvc33vznp95qYRkC0qzq5uWZaw==
   -----END PRIVATE KEY-----
 
-dhparam: |
+dhparams: |
   -----BEGIN DH PARAMETERS-----
   MIIBCAKCAQEAh84Akqqwxq1Pw1luCekXU48XBnyRCbYMBHtX8AHiJa10jYthyPQs
   jLGZbdo7aNM7dxpSoEkFd/7Ns1vspRdUT6TSqkvcZaGTv3tmeVD+s9EjZgKlyhA7
