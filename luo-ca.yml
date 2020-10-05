@@ -1,0 +1,49 @@
+#CA LUONTI
+
+#kansiot
+mkdir -p /opt/ca/root-ca/db
+mkdir -p /opt/ca/inter-ca/db
+mkdir -p /opt/ca/crl
+mkdir -p /opt/ca/server
+
+#kannat
+cp /dev/null /opt/ca/root-ca/db/root-ca.db
+cp /dev/null /opt/ca/root-ca/db/root-ca.db.attr
+echo 01 > /opt/ca/root-ca/db/root-ca.crt.srl
+echo 01 > /opt/ca/root-ca/db/root-ca.crl.srl
+
+cp /dev/null /opt/ca/inter-ca/db/inter-ca.db
+cp /dev/null /opt/ca/inter-ca/db/inter-ca.db.attr
+echo 01 > /opt/ca/inter-ca/db/inter-ca.crt.srl
+echo 01 > /opt/ca/inter-ca/db/inter-ca.crl.srl
+
+
+#kopio konffit
+
+
+#luodaan root ja allekirjoitetaan itsellaan
+openssl ecparam -genkey -name secp384r1 -out /opt/ca/root-ca/root-ca.key
+openssl req -new -config /opt/ca/root-ca/root-ca.conf -key /opt/ca/root-ca/root-ca.key -out /opt/ca/root-ca/root-ca.csr
+openssl ca -selfsign -config /opt/ca/root-ca/root-ca.conf  -in /opt/ca/root-ca/root-ca.csr -out /opt/ca/root-ca/root-ca.crt -extensions root_ca_ext -batch
+rm -f /opt/ca/root-ca/root-ca.csr
+
+#luodaan inter ja allekirjoitetaan rootilla
+openssl ecparam -genkey -name secp384r1 -out /opt/ca/inter-ca/inter-ca.key
+openssl req -new -config /opt/ca/inter-ca/inter-ca.conf -key /opt/ca/inter-ca/inter-ca.key -out /opt/ca/inter-ca/inter-ca.csr
+openssl ca -config /opt/ca/root-ca/root-ca.conf -in /opt/ca/inter-ca/inter-ca.csr -out /opt/ca/inter-ca/inter-ca.crt -extensions signing_ca_ext -batch
+rm -f /opt/ca/inter-ca/inter-ca.csr
+
+
+
+
+
+#nimet env muuttujiksi
+export SAN=DNS.1:sokkeli,DNS.2:sokkeli.testi.lol
+export CN=sokkeli
+
+#luodaan req ja allekirjoitetaan interilla
+openssl ecparam -genkey -name secp384r1 -out /opt/ca/server/$CN.key
+openssl req -new -config /opt/ca/server/server.conf -key /opt/ca/server/$CN.key -out /opt/ca/server/$CN.csr
+openssl ca -config /opt/ca/inter-ca/inter-ca.conf -in /opt/ca/server/$CN.csr -out /opt/ca/server/$CN.crt -extensions server_ext -batch
+rm -f /opt/ca/server/$CN.csr
+
