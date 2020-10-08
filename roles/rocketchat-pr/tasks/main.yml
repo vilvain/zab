@@ -11,7 +11,7 @@
     mode: 0655
 
 - name: Luetaan varmenteet muuttujiin
-  include_vars: rocketchat.yml
+  include_vars: rocketchat-pr.yml
 
 - name: Varmenne
   copy:
