@@ -13,7 +13,7 @@
 
 - name: Asennetaan python
   #dnf:
-yum:
+  yum:
     name: nginx 
     state: latest
 
