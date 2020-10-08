@@ -35,7 +35,7 @@ rm -f /opt/ca/inter-ca/inter-ca.csr
 
 
 #nimet env muuttujiksi
-export SAN=DNS.1:khala,DNS.2:khala.testi.lol
+export SAN=DNS.1:khala,DNS.2:khala.vyv.fi
 export CN=khala
 
 #luodaan req ja allekirjoitetaan interilla
