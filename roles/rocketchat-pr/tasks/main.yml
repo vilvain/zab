@@ -1,0 +1,88 @@
+#rocket chat
+
+
+#TLS varmenteet
+- name: Tee kansio certille
+  file:
+    path: /opt/rocketchat/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Luetaan varmenteet muuttujiin
+  include_vars: rocketchat.yml
+
+- name: Varmenne
+  copy:
+    content: '{{ varmenne }}'
+    dest: /opt/rocketchat/rocketchat.pem
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ avain }}'
+    dest: /opt/rocketchat/rocketchat.key
+    owner: root
+    group: root
+    mode: 0600
+
+- name: dhparams
+  copy:
+    content: '{{ dhparams }}'
+    dest: /opt/rocketchat/dhparams.pem
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Palomuuri public - http eri portissa
+  firewalld:
+    zone: public
+    port: 443/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Palomuuri public - http eri portissa
+  firewalld:
+    zone: public
+    port: 80/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Allowaan http proxytys SELinuxista
+  shell: semanage permissive -a httpd_t
+
+- name: Tee nginx conffig
+  template: src=nginx.conf.j2 dest="/etc/nginx/nginx.conf" owner=root group=root mode=0644
+
+- name: kaynnista nginx
+  service:
+      name: nginx
+      state: restarted
+      enabled: yes
+
+#kontit, taa pitaa korjata
+#composella koska laiska
+
+- name: Tee docker-compose filu
+  template: src=docker-compose.yml.j2 dest="/opt/rocketchat/docker-compose.yml" owner=root group=root mode=0644
+
+- name: Juoksuta compose
+  shell: docker-compose -f docker-compose.yml up -d mongo
+  args:
+    chdir: /opt/rocketchat
+
+
+- name: Juoksuta compose
+  shell: docker-compose -f docker-compose.yml up -d mongo-init-replica
+  args:
+    chdir: /opt/rocketchat
+
+- name: Juoksuta compose
+  shell: docker-compose -f docker-compose.yml up -d rocketchat
+  args:
+    chdir: /opt/rocketchat

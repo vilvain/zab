@@ -11,7 +11,7 @@
     name: python3 
     state: latest
 
-- name: Asennetaan python
+- name: Asennetaan nginx
   #dnf:
   yum:
     name: nginx 
@@ -97,28 +97,6 @@
 # - name: dhparam nginx varten
 #   shell: openssl dhparam -out /opt/rocketchat/dhparams.pem 2048
 #   when: not onko_filua.stat.exists
-
-# - name: Certti - priva avain
-#   openssl_privatekey:
-#     path: /opt/rocketchat/rocketchat.key
-#     type: RSA
-
-# - name: Certti - csr
-#   openssl_csr:
-#     path: /opt/rocketchat/rocketchat.csr
-#     privatekey_path:  /opt/rocketchat/rocketchat.key
-#     country_name: CL
-#     organization_name: Valtori
-#     email_address: ville.vainikka@valtori.fi
-#     common_name: sokkeli.testi.lol
-#     subject_alt_name: 'DNS:sokkeli.testi.lol'
-
-# - name: Certti - certti
-#   openssl_certificate:
-#     path: /opt/rocketchat/rocketchat.crt
-#     privatekey_path: /opt/rocketchat/rocketchat.key
-#     csr_path:  /opt/rocketchat/rocketchat.csr
-#     provider: selfsigned
 
 - name: Palomuuri public - http eri portissa
   firewalld:
