@@ -1,16 +1,19 @@
 #rocket chat
 - name: Asennetaan policycoreutils
-  dnf:
+  #dnf:
+  yum:
     name: policycoreutils 
     state: latest
 
 - name: Asennetaan python
-  dnf:
+  #dnf:
+  yum:
     name: python3 
     state: latest
 
 - name: Asennetaan python
-  dnf:
+  #dnf:
+yum:
     name: nginx 
     state: latest
 
