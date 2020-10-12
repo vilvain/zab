@@ -48,3 +48,18 @@ mv -f /opt/ca/server/$CN.crt /opt/rocketchat/rocketchat.crt
 mv -f /opt/ca/server/$CN.key /opt/rocketchat/rocketchat.key
 
 systemctl restart nginx
+
+
+#nimet env muuttujiksi
+export SAN=DNS.1:sauron,DNS.2:sauron.vyv.fi
+export CN=sauron
+
+#luodaan req ja allekirjoitetaan interilla
+openssl ecparam -genkey -name secp384r1 -out /opt/ca/server/$CN.key
+openssl req -new -config /opt/ca/server/server.conf -key /opt/ca/server/$CN.key -out /opt/ca/server/$CN.csr
+openssl ca -config /opt/ca/inter-ca/inter-ca.conf -in /opt/ca/server/$CN.csr -out /opt/ca/server/$CN.crt -extensions server_ext -batch
+rm -f /opt/ca/server/$CN.csr
+
+
+mv -f /opt/ca/server/$CN.crt /opt/rocketchat/rocketchat.crt
+mv -f /opt/ca/server/$CN.key /opt/rocketchat/rocketchat.key
