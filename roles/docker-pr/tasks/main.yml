@@ -16,7 +16,8 @@
 
 - name: Dockerin repo
   copy:
-    content: '{{ dockerRepoConf }}'
+#    content: '{{ dockerRepoConf }}'
+    content: "slurp"
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     groupo: root
