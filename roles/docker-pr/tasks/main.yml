@@ -16,11 +16,10 @@
 
 - name: Dockerin repo fix
   copy:
-#    content: '{{ dockerRepoConf }}'
-    content: 'slurp'
+    content: '{{ dockerRepoConf }}'
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
-    groupo: root
+    group: root
     mode: 0644
 
 - name: Sitten tykitetaan paketteja
