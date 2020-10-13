@@ -124,7 +124,7 @@
     immediate: yes
     state: enabled
   vars:
-    ansible_python_interpreter: '/usr/bin/python3'
+    ansible_python_interpreter: '/usr/bin/python2'
 
 - name: Palomuuri docker0 - masquerade
   firewalld:
@@ -134,7 +134,7 @@
     immediate: yes
     state: enabled
   vars:
-    ansible_python_interpreter: '/usr/bin/python3'
+    ansible_python_interpreter: '/usr/bin/python2'
 
 - name: Palomuuri public - masquerade
   firewalld:
@@ -144,8 +144,8 @@
     immediate: yes
     state: enabled
   vars:
-    ansible_python_interpreter: '/usr/bin/python3'
-    
+    ansible_python_interpreter: '/usr/bin/python2'
+
 - name: Docker pystyyn
   service:
     name: docker.service
