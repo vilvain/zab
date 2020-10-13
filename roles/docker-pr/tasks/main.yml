@@ -109,7 +109,7 @@
   args:
     warn: no
   ignore_errors: yes
-  
+
 #- name: Asennetaan docker-compose
 #  shell: pip3 install docker-compose
 
@@ -123,6 +123,8 @@
     permanent: yes
     immediate: yes
     state: enabled
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
 
 - name: Palomuuri docker0 - masquerade
   firewalld:
@@ -131,6 +133,8 @@
     permanent: yes
     immediate: yes
     state: enabled
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
 
 - name: Palomuuri public - masquerade
   firewalld:
@@ -139,7 +143,9 @@
     permanent: yes
     immediate: yes
     state: enabled
-
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+    
 - name: Docker pystyyn
   service:
     name: docker.service
