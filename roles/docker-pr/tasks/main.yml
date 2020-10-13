@@ -32,7 +32,7 @@
     mode: 0644
 
 - name: Konffataan subscription-managerin repot
-  shell: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
+  script: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
   args:
     warn: no
   ignore_errors: yes
