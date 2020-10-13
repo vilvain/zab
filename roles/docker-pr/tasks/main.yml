@@ -31,8 +31,18 @@
     group: root
     mode: 0644
 
-- name: Konffataan subscription-managerin repot
-  shell: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
+- name: Konffataan subscription-managerin repot1
+  shell: subscription-manager repos --disable=*
+  args:
+    warn: no
+
+- name: Konffataan subscription-managerin repot2
+  shell: subscription-manager repos --enable=rhel-7-server-rpms
+  args:
+    warn: no
+
+- name: Konffataan subscription-managerin repot3
+  shell: subscription-manager repos --enable=rhel-7-server-extras-rpms
   args:
     warn: no
 
