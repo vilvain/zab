@@ -42,7 +42,7 @@
     image: postgres:12.3
     env: 
       POSTGRES_USER: "zabbix"
-      POSTGRES_PASSWORD: "{{ kantaSalis }}"
+      POSTGRES_PASSWORD: '{{ kantaSalis }}'
       POSTGRES_DB: "zabbix"
     restart_policy: unless-stopped
     detach: yes
@@ -66,7 +66,7 @@
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
-      POSTGRES_PASSWORD: "{{ kantaSalis }}"
+      POSTGRES_PASSWORD: '{{ kantaSalis }}'
       POSTGRES_DB: "zabbix"
     links:
     - "db:postgres"
@@ -78,9 +78,6 @@
     detach: yes
 
 #TLS varmenteet
-#- name: Luetaan varmenteet muuttujiin
-#  include_vars: varmenteet.yml
-
 - name: Varmenteiden tyokansio
   file:
     path: /opt/zabbix/ssl/nginx/
