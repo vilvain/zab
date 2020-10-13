@@ -1,22 +1,31 @@
 #docker alusta
-- name: Lisataan docker-ce repo
-  shell: curl https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
-  args:
-    warn: no
+# - name: Lisataan docker-ce repo
+#   shell: curl https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+#   args:
+#     warn: no
 
-- name: Lisataan proxy yum conffiin
-  lineinfile: dest=/etc/yum.conf state=present regexp="proxy=http://10.88.2.10:8080"
-              insertafter=EOF line="proxy=http://10.88.2.10:8080"
-  ignore_errors: yes
+# - name: Lisataan proxy yum conffiin
+#   lineinfile: dest=/etc/yum.conf state=present regexp="proxy=http://10.88.2.10:8080"
+#               insertafter=EOF line="proxy=http://10.88.2.10:8080"
+#   ignore_errors: yes
 
-#docker rhel7:lla ei ole kunnolla tuottuna enää, vaan joudutaan kikkailemaan centos7:n kanssa, jonka polut taas menevät rhellin takia väärin
+#docker rhel7:lla ei ole kunnolla tuoetuna enää, vaan joudutaan kikkailemaan centos7:n kanssa, jonka polut taas menevät rhellin takia väärin
+#lisaksi joudutaan varkkaamana yhteistoiminta satelliten kanssa
 
-- name: Luetaan varmenteet muuttujiin
+- name: Luetaan muuttjat
   include_vars: docker-pr.yml
 
 - name: Dockerin repo fix
   copy:
-    content: '{{ dockerRepoConf }}'
+    content: '{{ yumRepoDocker }}'
+    dest: /etc/yum.repos.d/docker-ce.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Epelin repo fix
+  copy:
+    content: '{{ yumRepoEpel }}'
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     group: root
@@ -30,9 +39,7 @@
     - yum-utils
     - device-mapper-persistent-data
     - lvm2
-    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
-    - epel-release
-#    - python3
+#    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
 
 - name: Asennetaan docker-ce
   shell: yum -y install docker-ce --nobest
