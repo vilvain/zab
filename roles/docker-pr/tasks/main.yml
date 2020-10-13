@@ -11,15 +11,12 @@
 
 #docker rhel7:lla ei ole kunnolla tuottuna enää, vaan joudutaan kikkailemaan centos7:n kanssa, jonka polut taas menevät rhellin takia väärin
 
+- name: Luetaan varmenteet muuttujiin
+  include_vars: docker-pr.yml
+
 - name: Dockerin repo
   copy:
-    content: |
-      [docker-ce-stable]
-      name=Docker CE Stable - $basearch
-      baseurl=https://download.docker.com/linux/centos/7/x86_64/stable/
-      enabled=1
-      gpgcheck=1
-      gpgkey=https://download.docker.com/linux/centos/gpg
+    content: "{{ dockerRepoConf }}"
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     groupo: root
