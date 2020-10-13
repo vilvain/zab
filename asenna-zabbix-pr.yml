@@ -1,0 +1,9 @@
+- name: Valtori KT Dockeroitu Zabbix
+  hosts: all
+  become: yes
+  become_user: root
+  roles:
+#  - centos8
+#  - os-prep
+  - docker-pr
+  - zabbix-pr

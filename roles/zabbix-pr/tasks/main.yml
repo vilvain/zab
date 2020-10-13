@@ -1,0 +1,161 @@
+
+#zabbixi
+
+# - name: Asennetaan git
+#   yum:
+#     name: git
+#     state: latest
+
+# - name: Tyokansio
+#   file:
+#     path: /opt/git/
+#     state: directory
+#     owner: root
+#     group: root
+#     mode: '0644'
+
+# - name: Asennetaan git
+#   git:
+#     repo: https://github.com/zabbix/zabbix-docker.git 
+#     dest: /opt/git/zabbix-docker/
+#     version: "5.0"
+
+#docker kontit
+
+- name: Luetaan varmenteet muuttujiin
+  include_vars: zabbix-pr.yml
+
+
+- name: Palomuuri public - https
+  firewalld:
+    zone: public
+    service: https
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Kanta
+  docker_container:
+    name: db
+    image: postgres:12.3
+    env: 
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "{{ kantaSalis }}"
+      POSTGRES_DB: "zabbix"
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: SNMP serveri
+  docker_container:
+    name: snmp
+    image: zabbix/zabbix-snmptraps:latest
+    volumes:
+    - /zbx_instance/snmptraps:/var/lib/zabbix/snmptraps:rw
+    - /var/lib/zabbix/mibs:/usr/share/snmp/mibs:ro
+    ports:
+    - "162:162/udp"
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: Zabbix Server
+  docker_container:
+    name: server
+    image: zabbix/zabbix-server-pgsql:latest
+    env: 
+      DB_SERVER_HOST: "db"
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "{{ kantaSalis }}"
+      POSTGRES_DB: "zabbix"
+    links:
+    - "db:postgres"
+    ports:
+    - "10051:10051"
+    volumes_from:
+    - snmp
+    restart_policy: unless-stopped
+    detach: yes
+
+#TLS varmenteet
+#- name: Luetaan varmenteet muuttujiin
+#  include_vars: varmenteet.yml
+
+- name: Varmenteiden tyokansio
+  file:
+    path: /opt/zabbix/ssl/nginx/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Varmenne
+  copy:
+    content: '{{ varmenne }}'
+    dest: /opt/zabbix/ssl/nginx/ssl.crt
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Avain
+  copy:
+    content: '{{ avain }}'
+    dest: /opt/zabbix/ssl/nginx/ssl.key
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Parametrit
+  copy:
+    content: '{{ dhparam }}'
+    dest: /opt/zabbix/ssl/nginx/dhparam.pem
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Reverse proxy
+  docker_container:
+    name: web
+    image: zabbix/zabbix-web-nginx-pgsql:latest
+    env: 
+      DB_SERVER_HOST: "db"
+      POSTGRES_USER: "zabbix"
+      POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+      POSTGRES_DB: "zabbix"
+    links:
+    - "db:postgres"
+    - "server:zabbix-server"
+    ports:
+    - "443:8443"
+    volumes:
+    - /opt/zabbix/ssl/nginx:/etc/ssl/nginx:ro
+    restart_policy: unless-stopped
+    detach: yes
+
+- name: Agentin tyokansio
+  file:
+    path: /opt/zabbix/zabbix_agent.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0655
+
+- name: Agentin conffi
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: /opt/zabbix/zabbix_agent.d/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Agentti
+  docker_container:
+    name: agentti
+    image: zabbix/zabbix-agent:latest
+    env: 
+      ZBX_HOSTNAME="zabbox.testi.lol"
+      ZBX_SERVER_HOST="zabbox.testi.lol,172.17.0.0/24"
+    ports:
+    - "10050:10050"
+    volumes:
+      /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
+    restart_policy: unless-stopped
+    detach: yes
