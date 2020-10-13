@@ -64,15 +64,40 @@
     warn: no
   ignore_errors: yes
 
-- name: Sitten tykitetaan paketteja
-  yum:
-    name: "{{ paketit }}"
-  vars:
-    paketit:
-    - yum-utils
-    - device-mapper-persistent-data
-    - lvm2
-#    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+# - name: Sitten tykitetaan paketteja
+#   yum:
+#     name: "{{ paketit }}"
+#   vars:
+#     paketit:
+#     - yum-utils
+#     - device-mapper-persistent-data
+#     - lvm2
+# #    - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+
+- name: Asennetaa nyum-utils
+  shell: yum -y install yum-utils
+  args:
+    warn: no
+
+- name: Asennetaan device-mapper-persistent-data
+  shell: yum -y install device-mapper-persistent-data
+  args:
+    warn: no
+
+- name: Asennetaan lvm2
+  shell: yum -y install lvm2
+  args:
+    warn: no
+
+- name: Asennetaan korjataan python
+  shell: yum -y update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+  args:
+    warn: no
+
+- name: Asennetaan lvm2
+  shell: pip3 install docker-py  --proxy http://10.88.2.10:8080
+  args:
+    warn: no
 
 - name: Asennetaan docker-ce
   shell: yum -y install docker-ce
