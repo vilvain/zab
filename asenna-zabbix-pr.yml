@@ -2,9 +2,8 @@
   hosts: all
   become: yes
   become_user: root
-  environment:
-    http_proxy: http://suoja-proxy.vyv.fi:8080
-    https_proxy: http://suoja-proxy.vyv.fi:8080
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   roles:
   - docker-pr
   - zabbix-pr
