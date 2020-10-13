@@ -16,13 +16,11 @@
 
 - name: Dockerin repo
   copy:
-    content: "{{ dockerRepoConf }}"
+    content: '{{ dockerRepoConf }}'
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     groupo: root
-    mode: 0755
-
-
+    mode: 0644
 
 - name: Sitten tykitetaan paketteja
   yum:
