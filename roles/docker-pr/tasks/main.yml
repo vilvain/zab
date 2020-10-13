@@ -14,10 +14,10 @@
 - name: Luetaan varmenteet muuttujiin
   include_vars: docker-pr.yml
 
-- name: Dockerin repo
+- name: Dockerin repo fix
   copy:
 #    content: '{{ dockerRepoConf }}'
-    content: "slurp"
+    content: 'slurp'
     dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     groupo: root
