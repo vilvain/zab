@@ -35,7 +35,7 @@
   shell: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
   args:
     warn: no
-    ignore_errors: yes
+  ignore_errors: yes
 
 #hyva idea, huono moduuli
 # - name: Konffataan subscription-managerin repot1
@@ -58,7 +58,7 @@
   shell: yum-config-manager --disable \* --enable docker-ce-stable --enable epel
   args:
     warn: no
-    ignore_errors: yes
+  ignore_errors: yes
 
 - name: Sitten tykitetaan paketteja
   yum:
