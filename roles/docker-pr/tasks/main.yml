@@ -78,32 +78,38 @@
   shell: yum -y install yum-utils
   args:
     warn: no
+  ignore_errors: yes
 
 - name: Asennetaan device-mapper-persistent-data
   shell: yum -y install device-mapper-persistent-data
   args:
     warn: no
+  ignore_errors: yes
 
 - name: Asennetaan lvm2
   shell: yum -y install lvm2
   args:
     warn: no
+  ignore_errors: yes
 
 - name: Asennetaan korjataan python
   shell: yum -y update-alternatives --install /usr/bin/python python /usr/bin/python3 10
   args:
     warn: no
+  ignore_errors: yes
 
 - name: Asennetaan lvm2
   shell: pip3 install docker-py  --proxy http://10.88.2.10:8080
   args:
     warn: no
+  ignore_errors: yes
 
 - name: Asennetaan docker-ce
   shell: yum -y install docker-ce
   args:
     warn: no
-
+  ignore_errors: yes
+  
 #- name: Asennetaan docker-compose
 #  shell: pip3 install docker-compose
 
