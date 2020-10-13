@@ -4,10 +4,10 @@
   args:
     warn: no
 
-- name: Haetaan docker-ce repo
-  shell: yum makecache 
-  args:
-    warn: no
+#- name: Haetaan docker-ce repo
+#  shell: yum makecache 
+#  args:
+#    warn: no
 
 - name: Sitten tykitetaan paketteja
   yum:
@@ -22,7 +22,7 @@
 #    - python3
 
 - name: Asennetaan docker-ce
-  shell: dnf -y install docker-ce --nobest
+  shell: yum -y install docker-ce --nobest
   args:
     warn: no
 
