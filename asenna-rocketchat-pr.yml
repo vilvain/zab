@@ -4,6 +4,6 @@
   become_user: root
   environment:
     http_proxy: http://suoja-proxy.vyv.fi:8080
-    https_proxy: http://suoja-proxy.vyv.fi:8080     
+    https_proxy: http://suoja-proxy.vyv.fi:8080
   roles:
   - rocketchat-pr
