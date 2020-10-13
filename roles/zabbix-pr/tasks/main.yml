@@ -33,7 +33,9 @@
     permanent: yes
     immediate: yes
     state: enabled
-
+  vars:
+    ansible_python_interpreter: '/usr/bin/python2'
+  
 - name: Kanta
   docker_container:
     name: db
