@@ -117,7 +117,7 @@
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
-      POSTGRES_PASSWORD: "NiinPaljonSlusherointia2018!"
+      POSTGRES_PASSWORD: '{{ kantaSalis }}'
       POSTGRES_DB: "zabbix"
     links:
     - "db:postgres"
@@ -150,8 +150,8 @@
     name: agentti
     image: zabbix/zabbix-agent:latest
     env: 
-      ZBX_HOSTNAME="zabbox.testi.lol"
-      ZBX_SERVER_HOST="zabbox.testi.lol,172.17.0.0/24"
+      ZBX_HOSTNAME="sauron.vyv.fi"
+      ZBX_SERVER_HOST="sauron.vyv.fi,172.17.0.0/24"
     ports:
     - "10050:10050"
     volumes:
