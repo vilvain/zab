@@ -33,7 +33,7 @@
 
 - name: Konffataan subscription-managerin repot1
   community.general.rhsm_repository:
-    name: '*'
+    name: '\*'
     state: disabled
 
 - name: Konffataan subscription-managerin repot2
