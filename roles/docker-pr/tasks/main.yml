@@ -31,11 +31,15 @@
     group: root
     mode: 0644
 
-- name: Konffataan subscription-managerin repot
-  script: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
-  args:
-    warn: no
-  ignore_errors: yes
+
+#
+# ei toimi, pitaa ajaa manuaalisesti, varmaan liittyy env muuttujiin + python, mutten jaksa nyt kayttaa lisaa aikaa tahan
+
+# - name: Konffataan subscription-managerin repot
+#   shell: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
+#   args:
+#     warn: no
+#   ignore_errors: yes
 
 #hyva idea, huono moduuli
 # - name: Konffataan subscription-managerin repot1
