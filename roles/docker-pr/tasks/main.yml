@@ -31,26 +31,34 @@
     group: root
     mode: 0644
 
-- name: Konffataan subscription-managerin repot1
-  community.general.rhsm_repository:
-    name: '\*'
-    state: disabled
+- name: Konffataan subscription-managerin repot
+  shell: subscription-manager repos --disable=* --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms
+  args:
+    warn: no
+    ignore_errors: yes
 
-- name: Konffataan subscription-managerin repot2
-  community.general.rhsm_repository:
-    name: 'rhel-7-server-rpm'
-    state: enabled
+#hyva idea, huono moduuli
+# - name: Konffataan subscription-managerin repot1
+#   community.general.rhsm_repository:
+#     name: '*'
+#     state: disabled
 
-- name: Konffataan subscription-managerin repot3
-  community.general.rhsm_repository:
-    name: 'rhel-7-server-extras-rpms'
-    state: enabled
+# - name: Konffataan subscription-managerin repot2
+#   community.general.rhsm_repository:
+#     name: 'rhel-7-server-rpm'
+#     state: enabled
+
+# - name: Konffataan subscription-managerin repot3
+#   community.general.rhsm_repository:
+#     name: 'rhel-7-server-extras-rpms'
+#     state: enabled
 
 
 - name: Konffataan yum repot
   shell: yum-config-manager --disable \* --enable docker-ce-stable --enable epel
   args:
     warn: no
+    ignore_errors: yes
 
 - name: Sitten tykitetaan paketteja
   yum:
