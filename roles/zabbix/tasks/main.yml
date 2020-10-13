@@ -105,7 +105,7 @@
 
 - name: Parametrit
   copy:
-    content: '{{ dhparam }}'
+    content: '{{ dhparams }}'
     dest: /opt/zabbix/ssl/nginx/dhparam.pem
     owner: root
     group: root
