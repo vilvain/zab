@@ -1,8 +1,8 @@
 #gitlabi
-- name: Asennetaan policycoreutils
-  dnf:
-    name: policycoreutils 
-    state: latest
+# - name: Asennetaan policycoreutils
+#   dnf:
+#     name: policycoreutils 
+#     state: latest
 
 - name: Tee kansio konffeille
   file:
