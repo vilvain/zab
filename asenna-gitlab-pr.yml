@@ -1,0 +1,6 @@
+- name: Valtori KT Gitlabi
+  hosts: all
+  become: yes
+  become_user: root
+  roles:
+  - gitlab-pr
