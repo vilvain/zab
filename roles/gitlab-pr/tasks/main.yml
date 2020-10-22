@@ -85,7 +85,7 @@
     ports:
       - "{{ gitlab_ssh_port }}:22"
       - "{{ gitlab_http_port }}:80"
-      - "443:443"
+      - "10443:443"
     volumes:
       - "{{ gitlab_config_dir }}:/etc/gitlab:Z"
       - "{{ gitlab_logs_dir }}:/var/log/gitlab:Z"
