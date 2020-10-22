@@ -39,7 +39,7 @@
 
 #TLS varmenteet
 - name: Luetaan varmenteet muuttujiin
-  include_vars: gitlab.yml
+  include_vars: gitlab-pr.yml
 
 - name: Create gitlab directories
   file: path={{ item }} recurse=yes state=directory
@@ -50,8 +50,8 @@
     - "{{ gitlab_cert_dir }}"
 
 #TLS varmenteet
-- name: Luetaan varmenteet muuttujiin
-  include_vars: varmenteet.yml
+# - name: Luetaan varmenteet muuttujiin
+#   include_vars: varmenteet.yml
 
 - name: Varmenne
   copy:
