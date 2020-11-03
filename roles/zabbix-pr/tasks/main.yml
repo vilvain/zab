@@ -62,7 +62,7 @@
 - name: Zabbix Server
   docker_container:
     name: server
-    image: zabbix/zabbix-server-pgsql:latest
+    image: '{{ zabbix-versio }}'
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
