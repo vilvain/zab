@@ -39,7 +39,7 @@
 - name: Kanta
   docker_container:
     name: db
-    image: postgres:12.3
+    image: '{{ zabbixDbVersio }}'
     env: 
       POSTGRES_USER: "zabbix"
       POSTGRES_PASSWORD: '{{ kantaSalis }}'
@@ -50,7 +50,7 @@
 - name: SNMP serveri
   docker_container:
     name: snmp
-    image: zabbix/zabbix-snmptraps:latest
+    image: '{{ zabbixSnmpVersio }}'
     volumes:
     - /zbx_instance/snmptraps:/var/lib/zabbix/snmptraps:rw
     - /var/lib/zabbix/mibs:/usr/share/snmp/mibs:ro
@@ -62,7 +62,7 @@
 - name: Zabbix Server
   docker_container:
     name: server
-    image: '{{ zabbixVersio }}'
+    image: '{{ zabbixServerVersio }}'
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
@@ -113,7 +113,7 @@
 - name: Reverse proxy
   docker_container:
     name: web
-    image: zabbix/zabbix-web-nginx-pgsql:latest
+    image: 
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
@@ -148,7 +148,7 @@
 - name: Agentti
   docker_container:
     name: agentti
-    image: zabbix/zabbix-agent:latest
+    image: '{{ zabbixAgenttiVersio }}'
     env: 
       ZBX_HOSTNAME="sauron.vyv.fi"
       ZBX_SERVER_HOST="sauron.vyv.fi,172.17.0.0/24"

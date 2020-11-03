@@ -62,4 +62,9 @@ kantaSalis: !vault |
   3537386463313335320a613362356631636632633831613035383334626563633337653638633436
   32313564613431343839396130383462353161663136646666386266396165666663
 
-zabbixVersio: zabbix/zabbix-server-pgsql:centos-5.0-latest
+zabbixServerVersio: zabbix/zabbix-server-pgsql:centos-5.0-latest
+zabbixDbVersio: postgres:12.3
+zabbixSnmpVersio: zabbix/zabbix-snmptraps:centos-5.0-latest
+zabbixWebVersio: zabbix/zabbix-web-nginx-pgsql:centos-5.0-latest
+#zabbixAgenttiVersio: zabbix/zabbix-agent:centos-5.0-latest
+zabbixAgenttiVersio: zabbix/zabbix-agent2:latest
