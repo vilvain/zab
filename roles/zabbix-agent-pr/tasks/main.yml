@@ -27,7 +27,7 @@
     ports:
     - "10050:10050"
     volumes:
-      /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
-      /var/run/docker.sock:/var/run/docker.sock
+    - /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
+    - /var/run/docker.sock:/var/run/docker.sock
     restart_policy: unless-stopped
     detach: yes
