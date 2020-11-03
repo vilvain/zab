@@ -28,5 +28,6 @@
     - "10050:10050"
     volumes:
       /opt/zabbix/zabbix_agent.d:/etc/zabbix/zabbix_agentd.d:ro
+      /var/run:/var/run:ro
     restart_policy: unless-stopped
     detach: yes
