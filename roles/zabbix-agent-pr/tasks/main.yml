@@ -1,3 +1,6 @@
+- name: Luetaan varmenteet muuttujiin
+  include_vars: zabbix-pr.yml
+
 - name: Agentin tyokansio
   file:
     path: /opt/zabbix/zabbix_agent.d/
@@ -17,7 +20,7 @@
 - name: Agentti
   docker_container:
     name: agentti
-    image: zabbix/zabbix-agent:latest
+    image: '{{ zabbixAgenttiVersio }}'
     env: 
       ZBX_HOSTNAME="{{ ansible_facts['nodename'] }}"
       ZBX_SERVER_HOST="sauron.vyv.fi"
