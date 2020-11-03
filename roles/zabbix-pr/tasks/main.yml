@@ -113,7 +113,7 @@
 - name: Reverse proxy
   docker_container:
     name: web
-    image: 
+    image: '{{ zabbixWebVersio }}'
     env: 
       DB_SERVER_HOST: "db"
       POSTGRES_USER: "zabbix"
