@@ -23,7 +23,7 @@
     image: '{{ zabbixAgenttiVersio }}'
     env: 
       ZBX_HOSTNAME="{{ ansible_facts['nodename'] }}"
-      ZBX_SERVER_HOST="sauron.vyv.fi"
+      ZBX_SERVER_HOST="sauron.vyv.fi,172.17.0.0/16"
     ports:
     - "10050:10050"
     volumes:
