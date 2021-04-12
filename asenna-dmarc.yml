@@ -1,0 +1,8 @@
+- name: Valtori KT Dockeroitu Rancher
+  hosts: all
+  become: yes
+  become_user: root
+  roles:
+  - centos8
+  - os-prep
+  - docker
